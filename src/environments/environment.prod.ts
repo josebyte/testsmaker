@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverUrl: 'http://testmaker.epizy.com'
+  serverUrl: 'http://josebamad86.000webhostapp.com'
 };
