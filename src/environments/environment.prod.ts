@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverUrl: 'http://josebamad86.000webhostapp.com'
+  serverUrl: 'https://josebamad86.000webhostapp.com'
 };
