@@ -35,7 +35,15 @@ export class QuestionComponent implements OnInit {
   }
 
   radioChange(answer: Answer) {
-    this.httpClient.put(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + answer.correct, answer);
+
+
+    const value = answer.correct ? 1 : 0;
+    console.log("url put:");
+    console.log(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + answer.correct);
+
+    this.httpClient.put(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + value, {question_id: this.question.id, value: value} ).subscribe(done => {
+      console.log(done);
+    });
 
     if (answer.correct) {
       this.nextStep.emit(null);

@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MaterialModule} from './material.module';
 import { FlexLayoutModule} from '@angular/flex-layout';
 import { QuestionComponent} from './test/question/question.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { QuestionComponent} from './test/question/question.component';
     BrowserAnimationsModule,
     FlexLayoutModule,
     MaterialModule,
+    MatIconModule,
     ToastrModule.forRoot()
   ],
   providers: [],
