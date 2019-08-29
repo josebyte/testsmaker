@@ -28,27 +28,19 @@ export class QuestionComponent implements OnInit {
   apiUrl = environment.serverUrl;
   isLoading = false;
 
-  constructor(private httpClient: HttpClient,
-              private toastr: ToastrService) {}
+  constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
     this.isLoading = true;
   }
 
-  radioChange(answer: Answer){
-    console.log("MOVE TO NEXT QUESTION");
-    console.log(answer);
+  radioChange(answer: Answer) {
     this.httpClient.put(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + answer.correct, answer);
 
     if (answer.correct) {
-      this.toastr.success('Respuesta', 'Correcta!', {
-        timeOut :  120
-      });
-      this.nextStep.emit();
-    }else{
-      this.toastr.error('Respuesta', 'Incorrecta!', {
-        timeOut :  120
-      });
+      this.nextStep.emit(null);
+    } else {
+      this.nextStep.emit(this.question);
     }
   }
 

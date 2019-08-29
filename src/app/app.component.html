@@ -10,9 +10,18 @@
 
         <form *ngIf="questions">
 
-          <mat-horizontal-stepper #stepper>
+          <div *ngIf="results">
+            Resultados:
+            <div>OK: {{oks}}</div>
+            <div>BAD: {{bads}}</div>
 
-            <div style="text-align: right">{{ stepper.selectedIndex + 1 }}/{{questions.length}}</div>
+            <button (click)="reDo()">Review</button>
+          </div>
+
+
+
+
+          <mat-horizontal-stepper #matstepper *ngIf="!results">
 
             <mat-step
               *ngFor="let question of questions; let i = index"
@@ -21,7 +30,7 @@
               <div fxLayout="column" fxFlex="100%" fxLayoutGap="2em">
                 <question
                   [question]="question"
-                  (nextStep)="moveNext(stepper)">
+                  (nextStep)="moveNext($event)">
                 </question>
               </div>
 
@@ -31,6 +40,10 @@
 
         </form>
 
+
+        <div *ngIf="stepper" style="text-align: right">
+          {{ stepper.selectedIndex + 1 }} / {{questions.length}}
+        </div>
 
         <mat-form-field>
           <mat-label>Tests:</mat-label>

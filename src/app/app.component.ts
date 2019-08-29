@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChildren} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {HttpClient} from '@angular/common/http';
 import {Question} from './test/models/question';
 import {environment} from '../environments/environment';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import {environment} from '../environments/environment';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent implements OnInit {
-  @ViewChildren('stepper') stepper: any;
+  @ViewChild('matstepper', {static: false}) stepper: MatStepper;
 
   apiUrl = environment.serverUrl;
   formGroups: Array<FormGroup> = [];
@@ -20,8 +21,14 @@ export class AppComponent implements OnInit {
   tests: any = [];
   questions: Question[];
 
+  results = false;
+  oks = 0;
+  bads = 0;
+  review = [];
+
   constructor(private httpClient: HttpClient,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -44,23 +51,52 @@ export class AppComponent implements OnInit {
         group.addControl('' + i, new FormControl(i, Validators.required));
         this.formGroups.push(group);
       }
+      this.oks = 0;
+      this.bads = 0;
       this.isLoading = false;
 
     });
   }
 
-  moveNext(stepper: MatStepper) {
-    stepper.next();
+  moveNext(value) {
+    console.log(value);
+
+    if (value) {
+      this.bads++;
+      this.toastr.error('Respuesta', 'Incorrecta!', {
+        timeOut :  460
+      });
+      this.review.push(value);
+    } else {
+      this.oks++;
+      this.toastr.success('Respuesta', 'Correcta!', {
+        timeOut :  460
+      });
+    }
+
+
+    console.log(this.stepper);
+
+
+    if (this.stepper.selectedIndex + 1 >= this.stepper.steps.length) {
+      this.showResults();
+    } else {
+      this.stepper.next();
+    }
+
+  }
+
+  reDo(){
+    this.questions = this.review;
   }
 
   startTest(id: number) {
     this.getTest(id);
   }
 
-  review() {
-    /*
-    for(let q of questions){
-
-    }*/
+  showResults() {
+    this.results = !this.results;
   }
+
+
 }
