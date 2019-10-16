@@ -64,13 +64,13 @@ export class AppComponent implements OnInit {
     if (value) {
       this.bads++;
       this.toastr.error('Respuesta', 'Incorrecta!', {
-        timeOut :  460
+        timeOut :  860
       });
       this.review.push(value);
     } else {
       this.oks++;
       this.toastr.success('Respuesta', 'Correcta!', {
-        timeOut :  460
+        timeOut :  860
       });
     }
 

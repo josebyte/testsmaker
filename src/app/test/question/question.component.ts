@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {Question} from '../models/question';
 import {Answer} from '../models/answer';
-import {ToastrService} from 'ngx-toastr';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
@@ -41,7 +40,7 @@ export class QuestionComponent implements OnInit {
     console.log("url put:");
     console.log(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + answer.correct);
 
-    this.httpClient.put(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + value, {question_id: this.question.id, value: value} ).subscribe(done => {
+    this.httpClient.get(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + value, {} ).subscribe(done => {
       console.log(done);
     });
 
