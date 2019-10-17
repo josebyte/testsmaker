@@ -42,13 +42,15 @@ export class QuestionComponent implements OnInit {
       console.log(done);
     });
 
+    console.log(this.question)
+
     if (answer.correct) {
       this.nextStep.emit(null);
-      this.toastr.success('Correcto!', 'Respuesta correcta:' + this.question.getCorrect().answer, {
+      this.toastr.success('Correcto!', 'Respuesta correcta:' + this.getCorrect(), {
         timeOut :  2250
       });
     } else {
-      this.toastr.success('Incorrecto!', 'Respuesta correcta:' + this.question.getCorrect().answer, {
+      this.toastr.success('Incorrecto!', 'Respuesta correcta:' + this.getCorrect(), {
         timeOut :  2250
       });
       this.nextStep.emit(this.question);
@@ -59,6 +61,15 @@ export class QuestionComponent implements OnInit {
       console.log('wait');
     }, 2000);
 
+  }
+
+  getCorrect() {
+    for (let answ of this.question.answers) {
+      if (answ.correct) {
+        return answ.answer;
+      }
+    }
+    return '';
   }
 
 }
