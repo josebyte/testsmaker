@@ -3,6 +3,7 @@ import {Question} from '../models/question';
 import {Answer} from '../models/answer';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'question',
@@ -27,7 +28,8 @@ export class QuestionComponent implements OnInit {
   apiUrl = environment.serverUrl;
   isLoading = false;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient,
+              private toastr: ToastrService) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -42,9 +44,21 @@ export class QuestionComponent implements OnInit {
 
     if (answer.correct) {
       this.nextStep.emit(null);
+      this.toastr.success('Correcto!', 'Respuesta correcta:' + this.question.getCorrect().answer, {
+        timeOut :  2250
+      });
     } else {
+      this.toastr.success('Incorrecto!', 'Respuesta correcta:' + this.question.getCorrect().answer, {
+        timeOut :  2250
+      });
       this.nextStep.emit(this.question);
     }
+
+
+    setTimeout(function() {
+      console.log('wait');
+    }, 2000);
+
   }
 
 }
