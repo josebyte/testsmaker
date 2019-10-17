@@ -58,25 +58,26 @@ export class AppComponent implements OnInit {
     });
   }
 
-  moveNext(value) {
+  moveNext(value: Question) {
     console.log(value);
 
+    let message = '';
     if (value) {
       this.bads++;
-      this.toastr.error('Respuesta', 'Incorrecta!', {
-        timeOut :  860
-      });
+      message = 'Incorrecta';
       this.review.push(value);
     } else {
       this.oks++;
-      this.toastr.success('Respuesta', 'Correcta!', {
-        timeOut :  860
-      });
+      message = 'Correcta';
     }
 
-
+    this.toastr.success(message, 'Respuesta correcta:' + value.getCorrect().answer, {
+      timeOut :  2250
+    });
+    setTimeout(function() {
+      console.log('wait');
+    }, 2300);
     console.log(this.stepper);
-
 
     if (this.stepper.selectedIndex + 1 >= this.stepper.steps.length) {
       this.showResults();

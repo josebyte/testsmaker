@@ -34,11 +34,7 @@ export class QuestionComponent implements OnInit {
   }
 
   radioChange(answer: Answer) {
-
-
     const value = answer.correct ? 1 : 0;
-    console.log("url put:");
-    console.log(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + answer.correct);
 
     this.httpClient.get(this.apiUrl + '/api.php?question_id=' + this.question.id + '&value=' + value, {} ).subscribe(done => {
       console.log(done);
