@@ -26,7 +26,7 @@ export class QuestionComponent implements OnInit {
   @Input() question: Question;
   @Output() nextStep = new EventEmitter();
 
-  correctAnswer: String;
+  correctAnswer = '';
   apiUrl = environment.serverUrl;
   isLoading = false;
 
@@ -70,7 +70,7 @@ export class QuestionComponent implements OnInit {
   getCorrect() {
     for (let answ of this.question.answers) {
       if (answ.correct) {
-        return answ.answer;
+        return answ.answer+'';
       }
     }
     return '';
