@@ -19,12 +19,14 @@ import {ToastrService} from 'ngx-toastr';
       </mat-radio-button>
     </mat-radio-group>
 
+    <p [innerText]="correctAnswer"></p>
   `
 })
 export class QuestionComponent implements OnInit {
   @Input() question: Question;
   @Output() nextStep = new EventEmitter();
 
+  correctAnswer: String;
   apiUrl = environment.serverUrl;
   isLoading = false;
 
@@ -44,13 +46,15 @@ export class QuestionComponent implements OnInit {
 
     console.log(this.question)
 
+    this.correctAnswer = this.getCorrect();
+
     if (answer.correct) {
       this.nextStep.emit(null);
-      this.toastr.success('Correcto!', 'Respuesta correcta:' + this.getCorrect(), {
+      this.toastr.success('Correcto', 'Respuesta correcta:' + this.correctAnswer, {
         timeOut :  2250
       });
     } else {
-      this.toastr.success('Incorrecto!', 'Respuesta correcta:' + this.getCorrect(), {
+      this.toastr.error('Incorrecto', 'Respuesta correcta:' + this.correctAnswer, {
         timeOut :  2250
       });
       this.nextStep.emit(this.question);
