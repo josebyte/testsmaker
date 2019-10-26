@@ -7,4 +7,13 @@ export class Question {
   timesOk: number;
   timesBad: number;
 
+  getCorrect() {
+    for (let answ of this.answers) {
+      if (answ.correct) {
+        return answ;
+      }
+    }
+    return null;
+  }
+
 }

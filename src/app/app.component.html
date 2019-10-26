@@ -11,9 +11,13 @@
         <form *ngIf="questions">
 
           <div *ngIf="results">
-            Resultados:
+            Resultado:
+
             <div>OK: {{oks}}</div>
             <div>BAD: {{bads}}</div>
+
+            <b *ngIf="bads>0">{{oks/bads}}%</b>
+            <b *ngIf="bads==0">100%</b>
 
             <button (click)="reDo()">Review</button>
           </div>
@@ -59,7 +63,9 @@
 
       </mat-card-content>
       <mat-card-actions>
-        <button (click)="moveNext($event)"></button>
+
+        <button (click)="shuffle()">Shuffle</button>
+        <button (click)="moveNext($event)">Next</button>
       </mat-card-actions>
     </mat-card-content>
   </mat-card>

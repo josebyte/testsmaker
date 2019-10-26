@@ -27,7 +27,8 @@ export class AppComponent implements OnInit {
   review = [];
 
   constructor(private httpClient: HttpClient,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -57,13 +58,43 @@ export class AppComponent implements OnInit {
     });
   }
 
+  shuffle() {
+    let currentIndex = this.questions.length;
+    let temporaryValue;
+    let randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      // And swap it with the current element.
+      temporaryValue = this.questions[currentIndex];
+      this.questions[currentIndex] = this.questions[randomIndex];
+      this.questions[randomIndex] = temporaryValue;
+    }
+  }
+
   moveNext(value: Question) {
+    console.log(value);
+
+    let message = '';
     if (value) {
       this.bads++;
+      message = 'Incorrecta';
       this.review.push(value);
     } else {
       this.oks++;
+      message = 'Correcta';
     }
+
+    this.toastr.success(message, 'Respuesta correcta:' + value.getCorrect().answer, {
+      timeOut :  2250
+    });
+    setTimeout(function() {
+      console.log('wait');
+    }, 2300);
+    console.log(this.stepper);
 
     if (this.stepper.selectedIndex + 1 >= this.stepper.steps.length) {
       this.showResults();
@@ -73,7 +104,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  reDo() {
+  reDo(){
     this.questions = this.review;
   }
 
