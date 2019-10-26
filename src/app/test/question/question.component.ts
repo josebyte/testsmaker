@@ -15,7 +15,8 @@ import {ToastrService} from 'ngx-toastr';
       <mat-radio-button *ngFor="let answer of question.answers; index as i"
                         [value]="i"
                         (change)="radioChange(answer)">
-        <span innerHTML="{{answer.answer}}"></span>
+        <span *ngIf="!showAnswer" innerHTML="{{answer.answer}}"></span>
+        <span *ngIf="showAnswer" [style.color]="answer.correct ? 'green' : 'red'" innerHTML="{{answer.answer}}"></span>
       </mat-radio-button>
     </mat-radio-group>
 
@@ -26,7 +27,7 @@ export class QuestionComponent implements OnInit {
   @Input() question: Question;
   @Output() nextStep = new EventEmitter();
 
-  correctAnswer = '';
+  showAnswer = false;
   apiUrl = environment.serverUrl;
   isLoading = false;
 
@@ -44,22 +45,21 @@ export class QuestionComponent implements OnInit {
       console.log(done);
     });
 
-    console.log(this.question)
+    console.log(this.question);
 
-    this.correctAnswer = this.getCorrect();
+    this.showAnswer = true;
 
     let data = null;
     if (answer.correct) {
-      this.toastr.success('Correcto', 'Respuesta correcta:' + this.correctAnswer, {
+      this.toastr.success('Correcto', 'Respuesta correcta:' + this.getCorrect(), {
         timeOut :  2250
       });
     } else {
       data = this.question;
-      this.toastr.error('Incorrecto', 'Respuesta correcta:' + this.correctAnswer, {
+      this.toastr.error('Incorrecto', 'Respuesta correcta:' + this.getCorrect(), {
         timeOut :  2250
       });
     }
-
 
     setTimeout(this.nextStep.emit(data), 1800);
   }
