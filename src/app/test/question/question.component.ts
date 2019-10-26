@@ -61,7 +61,7 @@ export class QuestionComponent implements OnInit {
       });
     }
 
-    setTimeout(this.nextStep.emit(data), 1800);
+    setTimeout(() => this.nextStep.emit(data), 1800);
   }
 
   getCorrect() {
