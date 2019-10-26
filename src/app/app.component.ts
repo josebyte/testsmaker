@@ -57,20 +57,17 @@ export class AppComponent implements OnInit {
   }
 
   shuffle() {
-    let currentIndex = this.questions.length;
-    let temporaryValue;
-    let randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      // And swap it with the current element.
-      temporaryValue = this.questions[currentIndex];
-      this.questions[currentIndex] = this.questions[randomIndex];
-      this.questions[randomIndex] = temporaryValue;
-    }
+      let a = this.questions;
+      let j;
+      let x;
+      let i;
+      for (i = a.length - 1; i > 0; i--) {
+          j = Math.floor(Math.random() * (i + 1));
+          x = a[i];
+          a[i] = a[j];
+          a[j] = x;
+      }
+      this.questions = a;
   }
 
   moveNext(value: Question) {
