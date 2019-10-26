@@ -48,22 +48,23 @@ export class QuestionComponent implements OnInit {
 
     this.correctAnswer = this.getCorrect();
 
+    let data = null;
     if (answer.correct) {
-      this.nextStep.emit(null);
       this.toastr.success('Correcto', 'Respuesta correcta:' + this.correctAnswer, {
         timeOut :  2250
       });
     } else {
+      data = this.question;
       this.toastr.error('Incorrecto', 'Respuesta correcta:' + this.correctAnswer, {
         timeOut :  2250
       });
-      this.nextStep.emit(this.question);
     }
 
 
     setTimeout(function() {
       console.log('wait');
-    }, 2000);
+      this.nextStep.emit(data);
+    }, 1800);
 
   }
 
