@@ -3,6 +3,7 @@ import {Question} from '../models/question';
 import {Answer} from '../models/answer';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'question',
@@ -18,16 +19,19 @@ import {environment} from '../../../environments/environment';
       </mat-radio-button>
     </mat-radio-group>
 
+    <p [innerText]="correctAnswer"></p>
   `
 })
 export class QuestionComponent implements OnInit {
   @Input() question: Question;
   @Output() nextStep = new EventEmitter();
 
+  correctAnswer = '';
   apiUrl = environment.serverUrl;
   isLoading = false;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient,
+              private toastr: ToastrService) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -40,11 +44,36 @@ export class QuestionComponent implements OnInit {
       console.log(done);
     });
 
+    console.log(this.question)
+
+    this.correctAnswer = this.getCorrect();
+
     if (answer.correct) {
       this.nextStep.emit(null);
+      this.toastr.success('Correcto', 'Respuesta correcta:' + this.correctAnswer, {
+        timeOut :  2250
+      });
     } else {
+      this.toastr.error('Incorrecto', 'Respuesta correcta:' + this.correctAnswer, {
+        timeOut :  2250
+      });
       this.nextStep.emit(this.question);
     }
+
+
+    setTimeout(function() {
+      console.log('wait');
+    }, 2000);
+
+  }
+
+  getCorrect() {
+    for (let answ of this.question.answers) {
+      if (answ.correct) {
+        return answ.answer+'';
+      }
+    }
+    return '';
   }
 
 }
