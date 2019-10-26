@@ -61,11 +61,7 @@ export class QuestionComponent implements OnInit {
     }
 
 
-    setTimeout(function() {
-      console.log('wait');
-      this.nextStep.emit(data);
-    }, 1800);
-
+    setTimeout(this.nextStep.emit(data), 1800);
   }
 
   getCorrect() {
