@@ -40,34 +40,43 @@ export class AppComponent implements OnInit {
   }
 
   public getTest(id: number) {
-    this.isLoading = true;
 
     this.httpClient.get(this.apiUrl + '/api.php?id=' + id).subscribe((questions: Question[]) => {
       this.questions = questions;
-      for (let i = 0; i < this.questions.length; i++) {
-        const group = this.fb.group({});
-        group.addControl('' + i, new FormControl(i, Validators.required));
-        this.formGroups.push(group);
-      }
-      this.oks = 0;
-      this.bads = 0;
-      this.isLoading = false;
-
+      this.shuffle();
+      //this.addQuestions();
     });
   }
 
   shuffle() {
-      let a = this.questions;
-      let j;
-      let x;
-      let i;
-      for (i = a.length - 1; i > 0; i--) {
-          j = Math.floor(Math.random() * (i + 1));
-          x = a[i];
-          a[i] = a[j];
-          a[j] = x;
-      }
-      this.questions = a;
+    console.log(this.questions);
+    let a = this.questions;
+    let j;
+    let x;
+    let i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    this.questions = a;
+    console.log(this.questions);
+    this.addQuestions();
+  }
+
+  private addQuestions() {
+    this.formGroups = [];
+
+    for (let i = 0; i < this.questions.length; i++) {
+      const group = this.fb.group({});
+      group.addControl('' + i, new FormControl(i, Validators.required));
+      this.formGroups.push(group);
+    }
+
+    this.oks = 0;
+    this.bads = 0;
+    this.isLoading = false;
   }
 
   moveNext(value: Question) {

@@ -20,7 +20,6 @@ import {ToastrService} from 'ngx-toastr';
       </mat-radio-button>
     </mat-radio-group>
 
-    <p [innerText]="correctAnswer"></p>
   `
 })
 export class QuestionComponent implements OnInit {
