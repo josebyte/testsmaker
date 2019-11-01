@@ -15,8 +15,8 @@ import {ToastrService} from 'ngx-toastr';
       <mat-radio-button *ngFor="let answer of question.answers; index as i"
                         [value]="i"
                         (change)="radioChange(answer)">
-        <span *ngIf="!showAnswer" innerHTML="{{answer.answer}}"></span>
-        <span *ngIf="showAnswer" [style.color]="answer.correct ? 'green' : 'red'" innerHTML="{{answer.answer}}"></span>
+        <p *ngIf="!showAnswer" innerHTML="{{answer.answer}}"></p>
+        <p *ngIf="showAnswer" [style.color]="answer.correct ? 'green' : 'red'" innerHTML="{{answer.answer}}"></p>
       </mat-radio-button>
     </mat-radio-group>
 
