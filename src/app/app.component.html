@@ -19,6 +19,20 @@
             <b *ngIf="bads>0">{{oks/bads}}%</b>
             <b *ngIf="bads==0">100%</b>
 
+            <p>Revisar:</p>
+
+            <div *ngFor="let rev of review">
+              <p><b>{{rev.question}}</b></p>
+              <div *ngFor="let revA of rev.answers">
+                <p [style.color]="revA.correct ? 'green' : 'red'" innerHTML="{{revA.answer}}"></p>
+              </div>
+
+              <br>
+            </div>
+
+
+
+
             <button (click)="reDo()">Review</button>
           </div>
 

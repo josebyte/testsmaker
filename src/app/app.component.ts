@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   results = false;
   oks = 0;
   bads = 0;
-  review = [];
+  review: Question[] = [];
 
   constructor(private httpClient: HttpClient,
               private fb: FormBuilder) {
